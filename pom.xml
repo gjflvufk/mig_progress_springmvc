@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--
+        이 프로젝트는 Spring MVC + JSP + Annotation 기반 예제다.
+        목적:
+        1) Controller / Service / Repository 를 어노테이션으로 분리
+        2) DB 대신 FakeRepository 로 더미 로그 1000건 제공
+        3) JSP + JS + CSS 분리
+
+        중요:
+        - 폐쇄망에서는 외부 Maven Central 접속이 안 될 수 있다.
+        - 따라서 아래 dependency 들은 "사내 Nexus 에 이미 올라가 있어야" 한다.
+        - 사내에서 허용한 버전으로 properties 값만 바꿔도 된다.
+    -->
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>mig.progress</groupId>
+    <artifactId>mig-progress-springmvc</artifactId>
+    <version>1.0.0</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <!-- Java 버전은 사내 표준에 맞춰 조정 -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- 예시 버전: 사내 Nexus 에 존재하는 승인 버전으로 맞추면 된다 -->
+        <spring.version>5.3.30</spring.version>
+        <jackson.version>2.15.3</jackson.version>
+        <jstl.version>1.2</jstl.version>
+        <servlet.api.version>4.0.1</servlet.api.version>
+    </properties>
+
+    <dependencies>
+        <!-- Spring MVC 핵심 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- @Service, @Repository, IoC 컨테이너 동작에 필요 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- JSP 에서 JSTL 태그 사용 시 필요 -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+
+        <!-- @ResponseBody 로 JSON 응답 만들 때 필요 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- Tomcat 이 제공하므로 provided 처리 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>mig-progress</finalName>
+        <plugins>
+            <!-- war 패키징 플러그인 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
