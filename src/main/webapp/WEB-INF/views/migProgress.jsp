@@ -1,30 +1,27 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>MIG 전환 진행률 현황</title>
-
-    <!--
-        CSS 분리
-        ------------------------------------------------------------------
-        화면 구조와 스타일을 분리해서 유지보수를 쉽게 한다.
-    -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/migProgress.css">
+    <title>MIG 전환 진행률</title>
+    <link rel="stylesheet" href="<c:url value='/resources/css/migProgress.css' />">
 </head>
 <body>
-<div class="page-container">
-    <h1 class="page-title">MIG 전환 진행률 현황</h1>
+<div class="page-wrap">
+    <h1 class="page-title">MIG 전환 진행률</h1>
 
     <div class="top-summary-wrap">
         <div class="progress-panel">
             <div class="progress-top-bar">
                 <div class="progress-top-left">
                     <div class="progress-count-line">
-                        완료건수 / 전체건수 : <strong id="completedOverTotalText">0 / 0</strong>
+                        완료건수 / 전체건수 :
+                        <strong id="completedOverTotalText">0 / 0</strong>
                     </div>
                     <div class="progress-count-line">
-                        잔여 : <strong id="remainCountText">0</strong>
+                        잔여 :
+                        <strong id="remainCountText">0</strong>
                     </div>
                 </div>
 
@@ -76,6 +73,7 @@
 
     <div class="grid-panel">
         <div class="grid-title">업무별 전환 현황</div>
+
         <div class="table-wrap">
             <table class="grid-table">
                 <thead>
@@ -90,19 +88,16 @@
                     <th>작업상태</th>
                 </tr>
                 </thead>
-                <tbody id="masterTableBody"></tbody>
+                <tbody id="masterTableBody">
+                </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<!--
-    외부 JS 에서 JSP 표현식(<%= ... %>)을 직접 못 쓰므로
-    contextPath 를 먼저 전역 변수로 내려준다.
--->
 <script>
-    window.appContextPath = '${pageContext.request.contextPath}';
+    window.contextPath = "${pageContext.request.contextPath}";
 </script>
-<script src="${pageContext.request.contextPath}/resources/js/migProgress.js"></script>
+<script src="<c:url value='/resources/js/migProgress.js' />"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@ body {
     color: #222;
 }
 
-.page-container {
+.page-wrap {
     width: 100%;
 }
 
@@ -63,12 +63,12 @@ body {
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    justify-content: flex-end;
 }
 
 .refresh-label {
     font-size: 14px;
     font-weight: 700;
+    color: #4b5563;
 }
 
 .refresh-select {
@@ -78,13 +78,13 @@ body {
     border: 1px solid #cfd8e3;
     border-radius: 8px;
     background: #fff;
+    font-size: 14px;
 }
 
 .refresh-remaining {
     font-size: 13px;
     color: #666;
-    min-width: 92px;
-    text-align: right;
+    min-width: 100px;
 }
 
 .progress-header {
@@ -108,7 +108,7 @@ body {
 .progress-bar-bg {
     width: 100%;
     height: 30px;
-    background-color: #e5eaf0;
+    background: #e5eaf0;
     border-radius: 999px;
     overflow: hidden;
 }
@@ -117,22 +117,21 @@ body {
     height: 100%;
     width: 0;
     background: linear-gradient(90deg, #3b82f6, #22c55e);
-    transition: width 0.5s ease;
+    transition: width 0.4s ease;
 }
 
 .progress-meta {
     margin-top: 10px;
     display: flex;
     gap: 16px;
+    flex-wrap: wrap;
     font-size: 14px;
     color: #555;
-    flex-wrap: wrap;
 }
 
 .summary-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 14px 0;
     border-bottom: 1px solid #eef2f6;
 }
@@ -142,7 +141,6 @@ body {
 }
 
 .summary-key {
-    font-size: 15px;
     color: #666;
 }
 
@@ -161,23 +159,22 @@ body {
     overflow-x: auto;
 }
 
-table {
+.grid-table,
+.detail-grid {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
-thead th {
+.grid-table thead th {
     background: #eef4fb;
-    color: #1f2937;
-    font-size: 14px;
-    font-weight: 700;
     padding: 12px 10px;
     border-bottom: 1px solid #d8e0ea;
+    font-size: 14px;
     text-align: center;
 }
 
-tbody td {
+.grid-table tbody td {
     padding: 12px 10px;
     border-bottom: 1px solid #edf1f5;
     font-size: 14px;
@@ -185,46 +182,23 @@ tbody td {
     background: #fff;
 }
 
-tr.data-row {
+.master-row {
     cursor: pointer;
 }
 
-tr.data-row:hover td {
-    background: #f8fbff;
+.master-row:hover td {
+    background-color: #f8fbff;
 }
 
-tr.selected td {
-    background: #eef6ff;
+.master-row.selected td {
+    background-color: #eef6ff;
 }
 
-.text-left {
-    text-align: left !important;
-}
-
-.status-badge {
+.toggle-icon {
     display: inline-block;
-    min-width: 76px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.status-running {
-    background: #2563eb;
-}
-
-.status-complete {
-    background: #16a34a;
-}
-
-.status-error {
-    background: #dc2626;
-}
-
-.status-wait {
-    background: #6b7280;
+    width: 16px;
+    margin-right: 6px;
+    color: #475569;
 }
 
 .detail-row {
@@ -240,28 +214,57 @@ tr.selected td {
     background: #f8fbff !important;
 }
 
-.detail-box {
-    padding: 18px 18px 18px 42px;
-    border-left: 6px solid #93c5fd;
-}
-
-.detail-title {
-    margin-bottom: 12px;
-    font-size: 15px;
-    font-weight: 700;
-    color: #1e3a8a;
-}
-
-.detail-grid th {
+.detail-grid thead th {
     background: #dbeafe;
     padding: 10px 8px;
     font-size: 13px;
+    border-bottom: 1px solid #c9d7ea;
+    text-align: center;
 }
 
-.detail-grid td {
+.detail-grid tbody td {
     padding: 10px 8px;
     font-size: 13px;
     border-bottom: 1px solid #edf1f5;
+    text-align: center;
+    background: #fff;
+}
+
+.tree-cell {
+    text-align: left !important;
+    padding-left: 28px !important;
+}
+
+.tree-branch {
+    color: #64748b;
+    font-weight: 700;
+    margin-right: 4px;
+}
+
+.status-complete {
+    color: #16a34a;
+    font-weight: 700;
+}
+
+.status-progress {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.status-error {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+.status-wait {
+    color: #6b7280;
+    font-weight: 700;
+}
+
+.empty-message {
+    padding: 16px;
+    text-align: center;
+    color: #666;
 }
 
 @media (max-width: 1200px) {
