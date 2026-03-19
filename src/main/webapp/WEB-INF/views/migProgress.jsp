@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MIG 전환 진행률</title>
-    <link rel="stylesheet" href="<c:url value='/resources/css/migProgress.css' />">
+    <link rel="stylesheet" href="<%request.getContextPath()%>/resources/css/migProgress.css">
 </head>
 <body>
 <div class="page-wrap">
@@ -96,8 +96,8 @@
 </div>
 
 <script>
-    window.contextPath = "${pageContext.request.contextPath}";
+    var contextPath = '<%request.getContextPath()%>';
 </script>
-<script src="<c:url value='/resources/js/migProgress.js' />"></script>
+<script src="<%request.getContextPath()%>/resources/js/migProgress.js"></script>
 </body>
 </html>
