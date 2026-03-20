@@ -1,6 +1,8 @@
 package mig.progress.controller;
+import java.util.Collections;
+import java.util.List;
 
-import mig.progress.model.MigLog;
+import mig.progress.model.MigLogVO;
 import mig.progress.service.MigProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,8 +42,8 @@ public class MigProgressController {
      * ViewResolver 설정에 의해
      * /WEB-INF/views/migProgress.jsp 로 연결된다.
      */
-    @GetMapping("/view.do")
-    public String viewPage() {
+    @RequestMapping(value = "migprogress", method = RequestMethod.GET)
+    public String showMigProgressPage() {
         return "migProgress";
     }
 
@@ -52,9 +54,15 @@ public class MigProgressController {
      * 반환 객체(List<MigLog>)는 JSP 로 가지 않고
      * JSON 으로 변환되어 브라우저에 내려간다.
      */
-    @GetMapping("/all.do")
+    @RequestMapping(value = "mig/progress/all", method = RequestMethod.GET)
     @ResponseBody
-    public List<MigLog> selectAllLogs() {
-        return migProgressService.selectAllLogs();
+    public List<MigLogVO> selectAllLogs() {
+        try{
+          return migProgressService.selectAllLogs();  
+        }catch(Exception e){
+          e.printStackTrace();
+          return Collections.emptyList();
+        }
+        
     }
 }

@@ -8,7 +8,7 @@ package mig.progress.model;
  * - ResultSet 을 이 객체로 매핑하거나
  * - MyBatis / JPA DTO 로 사용하면 된다.
  */
-public class MigLog {
+public class MigLogVO {
 
     private long logId;
     private String jobLvl1;

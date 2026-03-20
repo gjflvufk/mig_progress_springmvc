@@ -1,6 +1,6 @@
 package mig.progress.service;
 
-import mig.progress.model.MigLog;
+import mig.progress.model.MigLogVO;
 import mig.progress.repository.MigProgressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class MigProgressServiceImpl implements MigProgressService {
     }
 
     @Override
-    public List<MigLog> selectAllLogs() {
+    public List<MigLogVO> selectAllLogs() {
         return migProgressRepository.selectAllLogs();
     }
 }

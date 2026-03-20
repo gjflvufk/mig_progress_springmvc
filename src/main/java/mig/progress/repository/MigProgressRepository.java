@@ -1,6 +1,6 @@
 package mig.progress.repository;
 
-import mig.progress.model.MigLog;
+import mig.progress.model.MigLogVO;
 
 import java.util.List;
 
