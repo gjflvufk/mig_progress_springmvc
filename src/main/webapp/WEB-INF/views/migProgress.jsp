@@ -98,6 +98,10 @@
 <script>
     var contextPath = '<%request.getContextPath()%>';
 </script>
-<script src="<%request.getContextPath()%>/resources/js/migProgress.js"></script>
+
+<script src="<%= request.getContextPath() %>/resources/js/migProgress.utils.js"></script>
+<script src="<%= request.getContextPath() %>/resources/js/migProgress.render.js"></script>
+<script src="<%= request.getContextPath() %>/resources/js/migProgress.main.js"></script>
+
 </body>
 </html>
