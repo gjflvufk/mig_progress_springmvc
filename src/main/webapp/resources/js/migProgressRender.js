@@ -108,7 +108,10 @@ function renderMasterTable(groups) {
         const opened = openedGroupKeys.has(group.groupKey);
 
         html += '<tr class="master-row' + (opened ? ' selected' : '') + '" data-group-key="' + group.groupKey + '">';
-        html += '<td><span class="toggle-icon">' + (opened ? '▼' : '▶') + '</span>' + (group.jobLvl1 || '') + '</td>';
+        html += '<td class="master-title-cell">';
+        html += '    <span class="toggle-icon"></span>';
+        html += '    <span class="master-title-text">' + (group.jobLvl1 || '') + '</span>';
+        html += '</td>';
         html += '<td>' + (group.jobLvl2 || '') + '</td>';
         html += '<td>' + (group.progressRate || 0) + '%</td>';
         html += '<td>' + numberFormat(group.targetTableCount) + '</td>';
@@ -129,9 +132,6 @@ function renderMasterTable(groups) {
     bindToggle();
 }
 
-/**
- * 마스터 행 클릭 토글 바인딩
- */
 function bindToggle() {
     document.querySelectorAll('.master-row').forEach(function(row) {
         row.addEventListener('click', function() {
@@ -144,7 +144,6 @@ function bindToggle() {
             }
 
             const detail = document.getElementById('detail-row-' + key);
-            const icon = row.querySelector('.toggle-icon');
 
             if (!detail) {
                 return;
@@ -155,15 +154,9 @@ function bindToggle() {
             if (isOpen) {
                 detail.classList.remove('open');
                 row.classList.remove('selected');
-                if (icon) {
-                    icon.textContent = '▶';
-                }
             } else {
                 detail.classList.add('open');
                 row.classList.add('selected');
-                if (icon) {
-                    icon.textContent = '▼';
-                }
             }
         });
     });
