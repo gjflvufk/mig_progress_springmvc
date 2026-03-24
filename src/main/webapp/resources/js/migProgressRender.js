@@ -36,9 +36,8 @@ function renderSummary(summary) {
 }
 
 /**
- * 특정 그룹의 상세 로그 HTML 생성
- * @param {Array} logs 그룹별 상세 로그 목록
- * @returns {string} 상세 테이블 HTML 문자열
+ * 특정 그룹의 상세 로그를 HTML 테이블 문자열로 생성한다.
+ * 트리 문자는 직접 넣지 않고, CSS 클래스만 넣어서 트리 모양을 만든다.
  */
 function createDetailTable(logs) {
     let html = '';
@@ -61,9 +60,13 @@ function createDetailTable(logs) {
     if (!logs || logs.length === 0) {
         html += '<tr><td colspan="9" class="empty-message">상세 데이터가 없습니다.</td></tr>';
     } else {
-        logs.forEach(function(log) {
+        logs.forEach(function(log, index) {
+            const isLast = index === logs.length - 1;
+
             html += '<tr>';
-            html += '<td class="tree-cell"><span class="tree-branch">└─</span>' + (log.tableName || '') + '</td>';
+            html += '<td class="tree-cell depth-1 ' + (isLast ? 'tree-last' : 'tree-mid') + '">';
+            html += '    <span class="tree-node-label">' + (log.tableName || '') + '</span>';
+            html += '</td>';
             html += '<td>' + (log.tableKorName || '') + '</td>';
             html += '<td>' + (log.startTime || '') + '</td>';
             html += '<td>' + (log.endTime || '') + '</td>';
@@ -80,6 +83,7 @@ function createDetailTable(logs) {
     html += '</table>';
     return html;
 }
+
 
 /**
  * 마스터 테이블 렌더링

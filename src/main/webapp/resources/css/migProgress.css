@@ -276,3 +276,142 @@ body {
         width: 100%;
     }
 }
+
+/* =========================
+   상세 트리 고급 표현
+   ========================= */
+
+/* 상세 테이블 기본 */
+.detail-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.detail-grid th,
+.detail-grid td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+.detail-grid th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: #334155;
+    text-align: left;
+}
+
+.detail-grid tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* =========================
+   트리 셀
+   ========================= */
+
+.tree-cell {
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 1단계 들여쓰기 */
+.tree-cell.depth-1 {
+    padding-left: 44px !important;
+}
+
+/* 세로선 */
+.tree-cell.depth-1::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -1px;
+    bottom: -1px;
+    width: 1px;
+    background-color: #cbd5e1;
+}
+
+/* 가로 꺾임선 */
+.tree-cell.depth-1::after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    width: 14px;
+    height: 1px;
+    background-color: #cbd5e1;
+}
+
+/* 마지막 노드는 아래 세로선을 끊어서 └ 느낌 */
+.tree-cell.depth-1.tree-last::before {
+    bottom: 50%;
+}
+
+/* 라벨 앞 작은 점 */
+.tree-node-label {
+    position: relative;
+    display: inline-block;
+    color: #0f172a;
+    font-weight: 500;
+}
+
+.tree-node-label::before {
+    content: "";
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background-color: #94a3b8;
+}
+
+/* 상세 영역 전체 셀 */
+.detail-cell {
+    padding: 0 !important;
+    background-color: #fcfcfd;
+}
+
+/* 상세 행 기본 숨김 */
+.detail-row {
+    display: none;
+}
+
+/* 열린 경우 표시 */
+.detail-row.open {
+    display: table-row;
+}
+
+/* 마스터 행 hover/선택 */
+.master-row {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.master-row:hover {
+    background-color: #f8fafc;
+}
+
+.master-row.selected {
+    background-color: #eff6ff;
+}
+
+.toggle-icon {
+    display: inline-block;
+    width: 16px;
+    margin-right: 6px;
+    color: #475569;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* 비어있을 때 */
+.empty-message {
+    text-align: center;
+    color: #64748b;
+    padding: 18px 0;
+}
