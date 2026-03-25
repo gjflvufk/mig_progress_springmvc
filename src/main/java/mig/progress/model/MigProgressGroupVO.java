@@ -1,7 +1,16 @@
 package mig.progress.service;
 
 import java.util.List;
-
+/**
+ * 상세 로그들을 업무 단위로 묶은 그룹 VO
+ *
+ * 예:
+ * - jobLvl1 = "예금"
+ * - jobLvl2 = "원장"
+ *
+ * 이런 식으로 같은 업무 묶음의 상세 로그들을 logs 에 담고,
+ * 그 그룹의 집계값(완료건수, 진행률 등)을 함께 가진다.
+ */
 public class MigProgressGroupVO {
 
     private String groupKey;

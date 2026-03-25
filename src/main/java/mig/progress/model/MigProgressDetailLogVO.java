@@ -1,5 +1,13 @@
-package mig.progress.service;
-
+/**
+ * 상세 로그 1건을 담는 VO
+ *
+ * 화면 기준으로는 "테이블 1개" 의 진행 상태 1행이라고 보면 된다.
+ *
+ * VO / DTO 느낌:
+ * - DB 조회 결과 1행을 담기 좋음
+ * - Service -> Controller -> JSON 응답으로 전달하기 좋음
+ * - getter/setter 만 있는 전형적인 JavaBean 형태
+ */
 public class MigProgressDetailLogVO {
 
     private String jobLvl1;

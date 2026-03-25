@@ -1,5 +1,10 @@
 package mig.progress.service;
 
+/**
+ * 화면 상단 전체 요약 VO
+ *
+ * 전체 로그를 통합해서 한 번에 보여줄 숫자들을 담는다.
+ */
 public class MigProgressSummaryVO {
 
     private int totalCount;
