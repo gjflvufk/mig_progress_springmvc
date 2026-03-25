@@ -1,3 +1,4 @@
+package mig.progress.model;
 /**
  * 상세 로그 1건을 담는 VO
  *

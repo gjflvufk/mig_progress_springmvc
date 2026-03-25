@@ -17,5 +17,5 @@ import java.util.List;
  */
 public interface MigProgressService {
 
-    List<MigLog> selectAllLogs();
+    List<MigLog> selectMigProgress();
 }

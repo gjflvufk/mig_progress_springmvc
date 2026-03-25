@@ -1,4 +1,4 @@
-package mig.progress.service;
+package mig.progress.model;
 
 import java.util.List;
 /**

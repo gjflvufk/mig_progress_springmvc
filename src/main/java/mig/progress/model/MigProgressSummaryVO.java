@@ -1,4 +1,4 @@
-package mig.progress.service;
+package mig.progress.model;
 
 /**
  * 화면 상단 전체 요약 VO
