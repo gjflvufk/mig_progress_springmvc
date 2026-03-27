@@ -27,6 +27,10 @@ public class MigProgressController {
         return "migProgress";
     }
 
+@RequestMapping("/mig/progress/detail.do")
+public String detailPage() {
+    return "migProgressDetail";
+}
     /**
      * 화면에서 사용할 전체 진행률 데이터 조회
      * 반환 구조:
