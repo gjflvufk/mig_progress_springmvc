@@ -1,0 +1,192 @@
+/* ================================================
+   migProgressDetail.css
+   ================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg: #f4f6f9;
+    --surface: #ffffff;
+    --border: #e2e6ea;
+    --text-primary: #1a202c;
+    --text-secondary: #6b7280;
+    --accent: #3b6fc4;
+    --success: #16a34a;
+    --error: #dc2626;
+    --pending: #6b7280;
+    --progress-bg: #e5e7eb;
+}
+
+body {
+    font-family: "맑은 고딕", "Malgun Gothic", "나눔고딕", sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 13px;
+    padding: 24px;
+    min-height: 100vh;
+}
+
+/* ── 헤더 ── */
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.page-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+.refresh-badge {
+    font-size: 11px;
+    color: var(--text-secondary);
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* ── 상태 배지 ── */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+.status-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.badge-running { background: #eff6ff; color: var(--accent); }
+.badge-done    { background: #f0fdf4; color: var(--success); }
+.badge-error   { background: #fef2f2; color: var(--error); }
+.badge-waiting { background: #f9fafb; color: var(--pending); }
+
+/* ── 요약 카드 ── */
+.summary-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+.summary-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.job-lvl1 { font-size: 15px; font-weight: 600; }
+.sep      { color: var(--border); font-size: 16px; }
+.job-lvl2 { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+
+/* ── 진행률 바 ── */
+.progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+.progress-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: var(--progress-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+    width: 0%;
+}
+.progress-pct {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 40px;
+    text-align: right;
+}
+
+/* ── KPI 카드 ── */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+.kpi-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    text-align: center;
+}
+.kpi-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.kpi-value { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+.kpi-card.is-error .kpi-value   { color: var(--error); }
+.kpi-card.is-success .kpi-value { color: var(--success); }
+
+/* ── 테이블 ── */
+.table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+}
+.table-title { font-size: 13px; font-weight: 600; }
+.table-count { font-size: 11px; color: var(--text-secondary); }
+
+.scroll-area { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; min-width: 780px; }
+thead th {
+    background: #f8f9fb;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid #f1f3f5; transition: background 0.15s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #f8f9fb; }
+tbody td { padding: 9px 12px; text-align: center; white-space: nowrap; }
+tbody td:nth-child(1) { text-align: left; font-family: monospace; font-size: 12px; }
+tbody td:nth-child(2) { text-align: left; }
+
+/* 테이블 상태 배지 */
+.tbl-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+.tbl-done    { background: #f0fdf4; color: var(--success); }
+.tbl-error   { background: #fef2f2; color: var(--error); }
+.tbl-running { background: #eff6ff; color: var(--accent); }
+.tbl-waiting { background: #f9fafb; color: var(--pending); }
+
+/* 차이건수 색상 */
+.diff-plus  { color: var(--success); font-weight: 600; }
+.diff-minus { color: var(--error);   font-weight: 600; }
+
+/* 빈 상태 */
+.empty-row td { padding: 40px; color: var(--text-secondary); font-size: 13px; }
