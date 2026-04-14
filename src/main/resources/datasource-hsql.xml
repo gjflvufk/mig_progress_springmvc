@@ -5,7 +5,6 @@
            http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- HSQLDB 인메모리 DataSource -->
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
@@ -14,13 +13,29 @@
         <property name="password" value=""/>
     </bean>
 
-    <!-- MyBatis SqlSessionFactory -->
-    <bean id="sqlSessionFactory"
-          class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="dbInitializer"
+          class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
         <property name="dataSource" ref="dataSource"/>
+        <property name="databasePopulator">
+            <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+                <property name="scripts">
+                    <list>
+                        <value>classpath:db/schema.sql</value>
+                        <value>classpath:db/data.sql</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
-    <!-- SqlSessionTemplate -->
+    <bean id="sqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean"
+          depends-on="dbInitializer">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:sql/hsql/*.xml"/>
+        <property name="typeHandlersPackage" value="mig.progress.handler"/>
+    </bean>
+
     <bean id="sqlSession"
           class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg ref="sqlSessionFactory"/>

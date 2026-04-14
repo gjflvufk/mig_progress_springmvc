@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mig.progress.repository.MigProgressRepository">
+
+    <resultMap id="detailLogResultMap" type="mig.progress.model.MigProgressDetailLogVO">
+        <result property="jobLvl1"      column="JOB_LVL1"/>
+        <result property="jobLvl2"      column="JOB_LVL2"/>
+        <result property="tableName"    column="TABLE_NAME"/>
+        <result property="tableKorName" column="TABLE_KOR_NAME"/>
+        <result property="startTime"    column="START_TIME"/>
+        <result property="endTime"      column="END_TIME"/>
+        <result property="elapsedTime"  column="ELAPSED_TIME"/>
+        <result property="beforeCount"  column="BEFORE_COUNT"/>
+        <result property="afterCount"   column="AFTER_COUNT"/>
+        <result property="diffCount"    column="DIFF_COUNT"/>
+        <result property="jobStatus"    column="JOB_STATUS"/>
+    </resultMap>
+
+    <resultMap id="targetResultMap" type="mig.progress.model.MigProgressDetailLogVO">
+        <result property="jobLvl1"      column="JOB_LVL1"/>
+        <result property="jobLvl2"      column="JOB_LVL2"/>
+        <result property="tableName"    column="TABLE_NAME"/>
+        <result property="tableKorName" column="TABLE_KOR_NAME"/>
+    </resultMap>
+
+    <!-- 전체 진행 현황 조회 (Oracle용 경과시간 계산) -->
+    <select id="selectAllProgressLogs" resultMap="detailLogResultMap">
+        SELECT
+            T.JOB_LVL1,
+            T.JOB_LVL2,
+            T.TABLE_NAME,
+            T.TABLE_KOR_NAME,
+            L.START_TIME,
+            L.END_TIME,
+            L.BEFORE_COUNT,
+            L.AFTER_COUNT,
+            L.DIFF_COUNT,
+            CASE WHEN L.JOB_STATUS IS NULL THEN 'WAIT'
+                 ELSE L.JOB_STATUS
+            END AS JOB_STATUS,
+            CASE
+                WHEN L.START_TIME IS NULL THEN ''
+                WHEN L.END_TIME IS NULL THEN
+                    TO_CHAR(TRUNC((SYSDATE - L.START_TIME) * 24), 'FM00') || ':' ||
+                    TO_CHAR(TRUNC(MOD((SYSDATE - L.START_TIME) * 1440, 60)), 'FM00') || ':' ||
+                    TO_CHAR(TRUNC(MOD((SYSDATE - L.START_TIME) * 86400, 60)), 'FM00')
+                ELSE
+                    TO_CHAR(TRUNC((L.END_TIME - L.START_TIME) * 24), 'FM00') || ':' ||
+                    TO_CHAR(TRUNC(MOD((L.END_TIME - L.START_TIME) * 1440, 60)), 'FM00') || ':' ||
+                    TO_CHAR(TRUNC(MOD((L.END_TIME - L.START_TIME) * 86400, 60)), 'FM00')
+            END AS ELAPSED_TIME
+        FROM TB_MIG_TARGET T
+        LEFT JOIN TB_MIG_LOG L ON T.TABLE_NAME = L.TABLE_NAME
+        ORDER BY T.JOB_LVL1, T.JOB_LVL2, T.TABLE_NAME
+    </select>
+
+    <!-- 전환 잡 시작 INSERT (RUNNING) -->
+    <insert id="insertStartLog" parameterType="mig.progress.model.MigProgressDetailLogVO">
+        INSERT INTO TB_MIG_LOG (
+            TABLE_NAME, JOB_LVL1, JOB_LVL2,
+            START_TIME, END_TIME,
+            BEFORE_COUNT, AFTER_COUNT, DIFF_COUNT,
+            JOB_STATUS, CREATED_AT, UPDATED_AT
+        ) VALUES (
+            #{tableName}, #{jobLvl1}, #{jobLvl2},
+            #{startTime}, NULL,
+            #{beforeCount}, 0, 0,
+            'RUNNING', #{startTime}, #{startTime}
+        )
+    </insert>
+
+    <!-- 전환 잡 완료 UPDATE (COMPLETE) -->
+    <update id="updateCompleteLog" parameterType="mig.progress.model.MigProgressDetailLogVO">
+        UPDATE TB_MIG_LOG
+        SET
+            END_TIME    = #{endTime},
+            AFTER_COUNT = #{afterCount},
+            DIFF_COUNT  = #{diffCount},
+            JOB_STATUS  = 'COMPLETE',
+            UPDATED_AT  = #{endTime}
+        WHERE TABLE_NAME = #{tableName}
+    </update>
+
+    <!-- 전환 잡 실패 UPDATE (ERROR) -->
+    <update id="updateErrorLog" parameterType="mig.progress.model.MigProgressDetailLogVO">
+        UPDATE TB_MIG_LOG
+        SET
+            END_TIME    = #{endTime},
+            AFTER_COUNT = #{afterCount},
+            DIFF_COUNT  = #{diffCount},
+            JOB_STATUS  = 'ERROR',
+            UPDATED_AT  = #{endTime}
+        WHERE TABLE_NAME = #{tableName}
+    </update>
+
+    <!-- 스케줄러용 대상 목록 조회 -->
+    <select id="selectAllTargets" resultMap="targetResultMap">
+        SELECT JOB_LVL1, JOB_LVL2, TABLE_NAME, TABLE_KOR_NAME
+        FROM TB_MIG_TARGET
+        ORDER BY JOB_LVL1, JOB_LVL2, TABLE_NAME
+    </select>
+
+</mapper>
